@@ -3,4 +3,4 @@
 
 BASEDIR=$(dirname $0)
 cd $BASEDIR
-nohup ./dog.sh > watch-dop.log 2> watch-dop.log < /dev/null &
+nohup ./dog.sh > watch-dog.log 2> watch-dog.log < /dev/null &
