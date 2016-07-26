@@ -8,11 +8,17 @@ if [ -z "$WATCHED_PROCESS_NAME" ] ; then
 	exit 1
 fi
 
+echo '$WATCHED_PROCESS_NAME:' $WATCHED_PROCESS_NAME
+echo '$RESTART_COMMAND:' $RESTART_COMMAND
+
 while true ; do
-	if [  `ps -eo cmd | grep "$WATCHED_PROCESS_NAME" | wc -l` -ne 2 ] ; then
+	if [ `ps -eo cmd | grep '^'"$WATCHED_PROCESS_NAME" | wc -l` -lt 1 ] ; then
 		echo [ `date` ] 'Restarting Process'
-		echo `ps -eo cmd:12 | grep "$WATCHED_PROCESS_NAME" | wc -l`
-		nohup "RESTART_COMMAND" &
+		echo [ `date` ] 'Number of processes currently alive: ' `ps -eo cmd:12 | grep '^'"$WATCHED_PROCESS_NAME" | wc -l`
+		nohup "$RESTART_COMMAND" &> /dev/null &
+	fi
+	if [ `ps -eo cmd | grep '^'"$WATCHED_PROCESS_NAME" | wc -l` -gt 1 ] ; then
+		echo [ `date` ] 'More than ONE process running'
 	fi
 	sleep 1
 done
