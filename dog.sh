@@ -19,7 +19,7 @@ WATCHED_PID=$!
 
 while true ; do
 	if [ `ps -eo pid | grep '^ *'$WATCHED_PID'$' | wc -l` -lt 1 ] ; then
-		echo [ `date` ] 'Restarting Process'
+		echo [ `date` ] 'Restarting Process after PID '$WATCHED_PID' died.'
 		nohup $RESTART_COMMAND &> $APP_LOG_FILE &
 		WATCHED_PID=$!
 	fi
