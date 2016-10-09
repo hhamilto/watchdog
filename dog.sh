@@ -14,13 +14,13 @@ echo '$RESTART_COMMAND:' $RESTART_COMMAND
 
 
 
-nohup "$RESTART_COMMAND" &> $APP_LOG_FILE &
+nohup $RESTART_COMMAND &> $APP_LOG_FILE &
 WATCHED_PID=$!
 
 while true ; do
 	if [ `ps -eo pid | grep '^ '$WATCHED_PID'$' | wc -l` -lt 1 ] ; then
 		echo [ `date` ] 'Restarting Process'
-		nohup "$RESTART_COMMAND" &> $APP_LOG_FILE &
+		nohup $RESTART_COMMAND &> $APP_LOG_FILE &
 		WATCHED_PID=$!
 	fi
 	sleep 1
